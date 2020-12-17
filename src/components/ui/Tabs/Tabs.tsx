@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useState } from 'react'
-
+import css from './Tabs.module.css'
 import cn from 'classnames'
 import { TabPaneProps } from '../TabPane'
 
@@ -13,7 +13,9 @@ const Tab: FC<TabProps> = ({ children, tabKey, setActiveTab, activeTab }) => {
   return (
     <li
       onClick={(e) => setActiveTab(tabKey, e)}
-      className={cn({ active: activeTab === tabKey })}
+      className={cn(css.tabsListItem, {
+        [css.tabsListItemActive]: activeTab === tabKey,
+      })}
     >
       {children}
     </li>
@@ -36,7 +38,7 @@ const Tabs: FC<TabsProps> = ({ children, defaultActiveKey, onChange }) => {
 
   return (
     <div>
-      <ol>
+      <ol className="flex">
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
             return (
@@ -51,11 +53,15 @@ const Tabs: FC<TabsProps> = ({ children, defaultActiveKey, onChange }) => {
           }
         })}
       </ol>
-      <div>
+      <div className="flex">
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
             return (
-              <div className={cn({ active: activeTab === child.key })}>
+              <div
+                className={cn(css.tabContent, {
+                  [css.tabContentActive]: activeTab === child.props.tabKey,
+                })}
+              >
                 {child.props.children}
               </div>
             )
