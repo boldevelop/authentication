@@ -8,9 +8,10 @@ const RegisterForm: FC = () => {
     <div>
       <Title>Create Account</Title>
 
-      <Input type="email" label="Email" placeholder="example@gmail.com" />
+      {/*<Input type="email" label="Email" placeholder="example@gmail.com" />
       <Input type="password" label="Password" placeholder="••••••••" />
       <Input type="password" label="Confirm password" placeholder="••••••••" />
+      */}
       <Button>Create</Button>
     </div>
   )

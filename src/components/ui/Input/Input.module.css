@@ -29,8 +29,34 @@
   }
 }
 
+.inputError {
+  @apply border-red-400;
+}
+
 .label {
   @apply mb-1 text-base text-gray-900 tracking-wider;
+}
+
+.labelError {
+  @apply text-red-400;
+}
+
+.labelRequired {
+  & span {
+    @apply inline-block relative;
+
+    &:before {
+      width: 10px;
+      height: 10px;
+
+      top: 0;
+      right: -12px;
+      @apply absolute block text-red-600;
+
+      line-height: 14px;
+      content: '*';
+    }
+  }
 }
 
 .inputUpperDiv {
