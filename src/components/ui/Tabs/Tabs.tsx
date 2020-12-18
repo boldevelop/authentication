@@ -38,7 +38,7 @@ const Tabs: FC<TabsProps> = ({ children, defaultActiveKey, onChange }) => {
 
   return (
     <div>
-      <ol className="flex">
+      <ol className="flex px-6">
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
             return (

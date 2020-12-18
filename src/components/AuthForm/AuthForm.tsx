@@ -1,18 +1,16 @@
 import { FC } from 'react'
 import Title from '../ui/Title'
 import Input from '../ui/Input'
+import Button from '../ui/Button'
 
 const AuthForm: FC = () => {
   return (
     <div>
-      <Title>Login</Title>
-      <h3 className="text-lg font-bold text-gray-300">
-        Please sign in to continue
-      </h3>
+      <Title subtitle="Please sign in to continue">Login</Title>
 
-      <Input type="email" label="Email" />
-      <Input type="text" label="Password" />
-      <button>login</button>
+      <Input type="email" label="Email" placeholder="example@gmail.com" />
+      <Input type="password" label="Password" placeholder="••••••••" />
+      <Button>Login</Button>
     </div>
   )
 }
