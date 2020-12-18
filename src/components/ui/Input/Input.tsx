@@ -9,11 +9,13 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormMethods['register']
   rules: RegisterOptions
   errors: UseFormMethods['errors']
+  trigger: UseFormMethods['trigger']
 }
 
 const Input: FC<InputProps> = ({
   label,
   register,
+  trigger,
   rules,
   errors,
   ...props

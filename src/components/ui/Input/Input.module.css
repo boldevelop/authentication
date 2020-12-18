@@ -35,6 +35,7 @@
 
 .label {
   @apply mb-1 text-base text-gray-900 tracking-wider;
+  @apply transition transition-all ease-in-out duration-200;
 }
 
 .labelError {
