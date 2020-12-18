@@ -77,3 +77,15 @@
     transform: scaleX(1);
   }
 }
+
+.inputSuffix {
+  @apply pr-12;
+}
+
+.suffix {
+  width: 40px;
+  height: 40px;
+  right: 0;
+  top: 0;
+  @apply absolute h-full;
+}

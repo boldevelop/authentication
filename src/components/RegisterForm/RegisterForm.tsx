@@ -9,6 +9,7 @@ import {
   validatePassword,
   validateSecondPwd,
 } from '../../helpers'
+import PasswordInput from '../ui/PasswordInput'
 
 const emailName = 'email'
 const passwordName = 'password'
@@ -67,25 +68,20 @@ const RegisterForm: FC = () => {
           label="Email"
           placeholder="example@gmail.com"
         />
-        <Input
+        <PasswordInput
           register={register}
           rules={passwordRules}
           name={passwordName}
           errors={errors}
-          type="password"
           label="Password"
-          placeholder="••••••••"
         />
-        <Input
+        <PasswordInput
           register={register}
           rules={confirmPwdRules}
           name={confirmPwdName}
           errors={errors}
-          type="password"
           label="Confirm password"
-          placeholder="••••••••"
         />
-
         <Button>Create</Button>
       </form>
     </div>

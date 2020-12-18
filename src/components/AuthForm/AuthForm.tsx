@@ -4,6 +4,7 @@ import Input from '../ui/Input'
 import Button from '../ui/Button'
 import { useForm } from 'react-hook-form'
 import { emailValidation, trimAllSpaces } from '../../helpers'
+import PasswordInput from '../ui/PasswordInput'
 
 const emailName = 'AuthEmail'
 const passwordName = 'AuthPassword'
@@ -46,14 +47,12 @@ const AuthForm: FC = () => {
           label="Email"
           placeholder="example@gmail.com"
         />
-        <Input
+        <PasswordInput
           register={register}
           rules={passwordRules}
           name={passwordName}
           errors={errors}
-          type="password"
           label="Password"
-          placeholder="••••••••"
         />
         <Button>Login</Button>
       </form>

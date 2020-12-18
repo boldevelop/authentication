@@ -6,6 +6,7 @@ import { RegisterOptions } from 'react-hook-form/dist/types/validator'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
+  suffix?: JSX.Element
   register: UseFormMethods['register']
   rules: RegisterOptions
   errors: UseFormMethods['errors']
@@ -13,6 +14,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input: FC<InputProps> = ({
   label,
+  suffix,
   register,
   rules,
   errors,
@@ -24,8 +26,8 @@ const Input: FC<InputProps> = ({
   const onFocusBlurHandler = (currentRef) => {
     setIsFocused(document.activeElement === currentRef)
   }
-  const errorObject = errors && errors[props.name]
 
+  const errorObject = errors && errors[props.name]
   return (
     <div className="flex flex-col mb-6">
       <label
@@ -45,8 +47,12 @@ const Input: FC<InputProps> = ({
         })}
       >
         <input
-          className={cn(css.input, { [css.inputError]: errorObject })}
+          className={cn(css.input, {
+            [css.inputError]: errorObject,
+            [css.inputSuffix]: suffix,
+          })}
           id={props.name}
+          // for accessibility (aria-invalid, role="alert")
           aria-invalid={errorObject ? 'true' : 'false'}
           {...props}
           ref={(e) => {
@@ -56,6 +62,8 @@ const Input: FC<InputProps> = ({
           onFocus={() => onFocusBlurHandler(inputRef.current)}
           onBlur={() => onFocusBlurHandler(inputRef.current)}
         />
+
+        {suffix && <div className={css.suffix}>{suffix}</div>}
       </div>
       {errorObject && (
         <span role="alert" className="text-red-400 text-sm">
