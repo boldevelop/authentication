@@ -5,8 +5,8 @@ import Button from '../ui/Button'
 import { useForm } from 'react-hook-form'
 import { emailValidation, trimAllSpaces } from '../../helpers'
 
-const emailName = 'email'
-const passwordName = 'password'
+const emailName = 'AuthEmail'
+const passwordName = 'AuthPassword'
 
 interface Inputs {
   [emailName]: string
@@ -14,7 +14,7 @@ interface Inputs {
 }
 
 const AuthForm: FC = () => {
-  const { register, handleSubmit, errors, trigger } = useForm<Inputs>({
+  const { register, handleSubmit, errors } = useForm<Inputs>({
     mode: 'onChange',
   })
   const onSubmit = (data) => {
@@ -28,7 +28,7 @@ const AuthForm: FC = () => {
 
   const emailRules = {
     required: 'Email is required',
-    validate: (value) => emailValidation(value),
+    validate: emailValidation,
   }
   const passwordRules = { required: 'Password is required' }
 
@@ -42,7 +42,6 @@ const AuthForm: FC = () => {
           rules={emailRules}
           name={emailName}
           type={emailName}
-          trigger={trigger}
           errors={errors}
           label="Email"
           placeholder="example@gmail.com"
@@ -52,7 +51,6 @@ const AuthForm: FC = () => {
           rules={passwordRules}
           name={passwordName}
           errors={errors}
-          trigger={trigger}
           type="password"
           label="Password"
           placeholder="••••••••"

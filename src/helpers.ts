@@ -31,3 +31,25 @@ export const emailValidation = (value: string): boolean | string => {
 
 export const trimAllSpaces = (value: string): string =>
   value.replace(/\s+/g, '')
+
+export const validatePassword = (value: string): string | boolean => {
+  if (!/[a-z]/g.test(value)) return 'Password must include lower characters'
+  if (!/[A-Z]/g.test(value)) return 'Password must include upper characters'
+  if (!/[0-9]/g.test(value)) return 'Password must include number'
+  if (!/[!#$%^@.&*()_+\-=[\]{};':"\\|,<>/?]/g.test(value))
+    return 'Password must include special characters'
+  if (/[^a-zA-Z0-9!#$%^@.&*()_+\-=[\]{};':"\\|,<>/?]/g.test(value))
+    return (
+      'Password must contain latin characters,' +
+      ' number and special characters'
+    )
+  return true
+}
+
+export const validateSecondPwd = (
+  value: string,
+  firstPassword: string
+): string | boolean => {
+  if (!(value === firstPassword)) return 'The passwords do not match'
+  return true
+}
