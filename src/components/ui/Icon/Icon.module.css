@@ -1,0 +1,14 @@
+.icon {
+  @apply cursor-pointer p-2;
+
+  & svg {
+    @apply fill-current text-gray-400;
+    @apply transition transition-all ease-in-out duration-200;
+  }
+
+  &:hover {
+    & svg {
+      @apply fill-current text-indigo-600;
+    }
+  }
+}

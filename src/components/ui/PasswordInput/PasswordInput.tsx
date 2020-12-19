@@ -1,7 +1,27 @@
-import { FC, InputHTMLAttributes } from 'react'
+import { FC, InputHTMLAttributes, useState } from 'react'
 import { UseFormMethods } from 'react-hook-form'
 import { RegisterOptions } from 'react-hook-form/dist/types/validator'
 import Input from '../Input'
+import Icon from '../Icon'
+
+interface EyeIconProps {
+  onClick: (e?) => void
+}
+
+const eyeOpened = 'eyeOpened'
+const eyeClosed = 'eyeClosed'
+
+const EyeIcon: FC<EyeIconProps> = ({ onClick }) => {
+  const [type, setType] = useState(eyeOpened)
+  const handleClick = () => {
+    setType(type === eyeOpened ? eyeClosed : eyeOpened)
+    onClick && onClick()
+  }
+
+  const title = type === eyeOpened ? 'Show password' : 'Hide password'
+
+  return <Icon type={type} onClick={handleClick} title={title} />
+}
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
@@ -10,13 +30,19 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   errors: UseFormMethods['errors']
 }
 
+const password = 'password'
+const text = 'text'
+
 const PasswordInput: FC<PasswordInputProps> = ({ ...props }) => {
+  const [type, setType] = useState(password)
+  const handleClick = () => setType(type === password ? text : password)
+
   return (
     <Input
       {...props}
-      type="password"
+      type={type}
       placeholder="••••••••"
-      suffix={<p>P</p>}
+      suffix={<EyeIcon onClick={handleClick} />}
     />
   )
 }
