@@ -20,7 +20,7 @@ interface Inputs {
 }
 
 interface AuthFormProps {
-  setLoggedUser: (user) => void
+  setLoggedUser: (user, isRemember) => void
 }
 
 const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
@@ -67,10 +67,13 @@ const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
 
     if (isSuccess) {
       clearForm()
-      setLoggedUser({
-        email: data[emailName],
-        password: data[passwordName],
-      })
+      setLoggedUser(
+        {
+          email: data[emailName],
+          password: data[passwordName],
+        },
+        data[rememberName]
+      )
     } else {
       setOnsubmitError('Password or email incorrect')
     }

@@ -9,7 +9,7 @@ interface Props {
 const RegisteredContent: FC<Props> = ({ logout }) => {
   return (
     <div className="px-6 pb-6">
-      <Title subtitle="You are in">Welcome</Title>
+      <Title subtitle="You can reload page">Welcome!</Title>
       <Button onClick={logout}>logout</Button>
     </div>
   )

@@ -9,6 +9,11 @@ import Link from '../ui/Link'
 import { RegisteredUsersContextProvider } from 'context/registeredUsersContext'
 import { LoginUserContextProvider } from 'context/loginUserContext'
 import RegisteredContent from '../RegisteredContent'
+import {
+  addStorageItem,
+  getStorageItem,
+  removeStorageItem,
+} from '../../utils/localStorage'
 
 const defaultActiveKey = '0'
 
@@ -28,8 +33,12 @@ const defaultUsers = [
 ]
 
 const App: FC = () => {
+  const userFromStorage = getStorageItem('user')
+
   const [activeTab, setActiveTab] = useState(defaultActiveKey)
-  const [loggedUser, setLoggedUser] = useState(null)
+  const [loggedUser, setLoggedUser] = useState(
+    userFromStorage ? { email: userFromStorage } : null
+  )
   const [regUsers, setRegUsers] = useState(defaultUsers)
   const signUpClick = () => setActiveTab('1')
   const signIpClick = () => setActiveTab('0')
@@ -39,11 +48,18 @@ const App: FC = () => {
     setActiveTab('0')
   }
 
-  const logUser = (user) => {
+  const logUser = (user, isRemember) => {
     setLoggedUser(user)
+
+    if (isRemember) {
+      addStorageItem('user', user.email)
+    }
   }
 
-  const logout = () => setLoggedUser(null)
+  const logout = () => {
+    setLoggedUser(null)
+    removeStorageItem('user')
+  }
 
   const unregisteredContent = (
     <Tabs
