@@ -21,7 +21,7 @@ interface Inputs {
   [confirmPwdName]: string
 }
 
-const RegisterForm: FC = () => {
+const RegisterForm: FC = ({ children }) => {
   const { register, handleSubmit, errors, watch } = useForm<Inputs>({
     mode: 'onChange',
   })
@@ -82,8 +82,10 @@ const RegisterForm: FC = () => {
           errors={errors}
           label="Confirm password"
         />
-        <Button>Create</Button>
+        <Button className="mb-3">Create</Button>
       </form>
+
+      {children}
     </div>
   )
 }

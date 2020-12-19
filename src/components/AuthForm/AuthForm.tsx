@@ -14,7 +14,7 @@ interface Inputs {
   [passwordName]: string
 }
 
-const AuthForm: FC = () => {
+const AuthForm: FC = ({ children }) => {
   const { register, handleSubmit, errors } = useForm<Inputs>({
     mode: 'onChange',
   })
@@ -54,8 +54,10 @@ const AuthForm: FC = () => {
           errors={errors}
           label="Password"
         />
-        <Button>Login</Button>
+        <Button className="mb-3">Login</Button>
       </form>
+
+      {children}
     </div>
   )
 }

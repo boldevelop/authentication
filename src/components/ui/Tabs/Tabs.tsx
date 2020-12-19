@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react'
+import React, { FC, ReactElement, useEffect, useState } from 'react'
 import css from './Tabs.module.css'
 import cn from 'classnames'
 import { TabPaneProps } from '../TabPane'
@@ -26,15 +26,27 @@ interface TabsProps {
   defaultActiveKey: string
   children: ReactElement<TabPaneProps>[]
   onChange?: (key, e) => void
+  activeTabKey?: string
 }
 
-const Tabs: FC<TabsProps> = ({ children, defaultActiveKey, onChange }) => {
+const Tabs: FC<TabsProps> = ({
+  children,
+  defaultActiveKey,
+  onChange,
+  activeTabKey,
+}) => {
   const [activeTab, setActiveTab] = useState(defaultActiveKey)
 
   const handleClick = (key, e) => {
     onChange && onChange(key, e)
     setActiveTab(key)
   }
+
+  useEffect(() => {
+    if (activeTabKey) {
+      setActiveTab(activeTabKey)
+    }
+  }, [activeTabKey])
 
   return (
     <div>
