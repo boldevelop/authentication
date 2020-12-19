@@ -8,12 +8,14 @@ import PasswordInput from '../ui/PasswordInput'
 import Link from '../ui/Link'
 import Checkbox from '../ui/Checkbox'
 
-const emailName = 'AuthEmail'
-const passwordName = 'AuthPassword'
+const emailName = 'authEmail'
+const passwordName = 'authPassword'
+const rememberName = 'remember'
 
 interface Inputs {
   [emailName]: string
   [passwordName]: string
+  [rememberName]: string
 }
 
 const AuthForm: FC = ({ children }) => {
@@ -24,7 +26,9 @@ const AuthForm: FC = ({ children }) => {
     /* trim all spaces */
     for (const prop in data) {
       const value = data[prop]
-      data[prop] = trimAllSpaces(value)
+      if (typeof value === 'string') {
+        data[prop] = trimAllSpaces(value)
+      }
     }
     console.log(data)
   }
@@ -58,7 +62,7 @@ const AuthForm: FC = ({ children }) => {
           labelSuffix={<Link className="text-xs">forgot password?</Link>}
         />
 
-        <Checkbox label="Remember me" />
+        <Checkbox register={register} name={rememberName} label="Remember me" />
         <Button>Login</Button>
       </form>
 
