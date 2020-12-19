@@ -61,6 +61,11 @@
   }
 }
 
+.labelCaps {
+  @apply text-xs text-yellow-500;
+  line-height: 24px;
+}
+
 .inputUpperDiv {
   @apply relative;
   &:before {

@@ -1,8 +1,14 @@
-import { FC, InputHTMLAttributes, useRef, useState } from 'react'
+import { FC, InputHTMLAttributes, useEffect, useRef, useState } from 'react'
 import css from './Input.module.css'
 import cn from 'classnames'
 import { UseFormMethods } from 'react-hook-form'
 import { RegisterOptions } from 'react-hook-form/dist/types/validator'
+import {
+  getCapsIsPressed,
+  isPressedCapsLock,
+  setCapsIsPressedGlobal,
+} from '../../../utils/capsLock'
+import { addWindowListenerIfNone } from '../../../utils/listeners'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
@@ -23,11 +29,42 @@ const Input: FC<InputProps> = ({
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false)
+  const [capsIsPressed, setCapsIsPressed] = useState(false)
+
   const inputRef = useRef<HTMLInputElement | null>()
 
-  const onFocusBlurHandler = (currentRef) => {
+  const onFocusBlurHandler = (currentRef, isOnBlur = false) => {
     setIsFocused(document.activeElement === currentRef)
+
+    // onBlur hide capslock message
+    setCapsIsPressed(isOnBlur ? false : getCapsIsPressed())
   }
+
+  /** detect capslock on change */
+  const onChangeHandle = () => {
+    /** if for avoiding rerender */
+    if (getCapsIsPressed() !== capsIsPressed) {
+      setCapsIsPressed(getCapsIsPressed())
+    }
+  }
+
+  /** detect capslock when change capslock in focused */
+  const onKeyDownHandle = (event) => {
+    const isPressed = isPressedCapsLock(event)
+    /** if for avoiding rerender */
+    if (isPressed !== capsIsPressed) {
+      setCapsIsPressed(isPressed)
+    }
+  }
+
+  useEffect(() => {
+    if (inputRef) {
+      addWindowListenerIfNone('keydown', setCapsIsPressedGlobal)
+    }
+    return () => {
+      document.removeEventListener('keydown', setCapsIsPressedGlobal)
+    }
+  }, [inputRef])
 
   const errorObject = errors && errors[props.name]
   return (
@@ -40,6 +77,9 @@ const Input: FC<InputProps> = ({
         })}
       >
         <span>{label}</span>
+        {capsIsPressed && (
+          <span className={css.labelCaps}>caps lock is active!</span>
+        )}
         {labelSuffix && <span>{labelSuffix}</span>}
       </label>
 
@@ -63,7 +103,9 @@ const Input: FC<InputProps> = ({
             inputRef.current = e
           }}
           onFocus={() => onFocusBlurHandler(inputRef.current)}
-          onBlur={() => onFocusBlurHandler(inputRef.current)}
+          onBlur={() => onFocusBlurHandler(inputRef.current, true)}
+          onChange={onChangeHandle}
+          onKeyDown={onKeyDownHandle}
         />
 
         {suffix && <div className={css.suffix}>{suffix}</div>}
