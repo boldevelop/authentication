@@ -34,7 +34,8 @@
 }
 
 .label {
-  @apply mb-1 text-base text-gray-900 tracking-wider;
+  @apply mb-1 flex justify-between;
+  @apply text-base text-gray-900 tracking-wider;
   @apply transition transition-all ease-in-out duration-200;
 }
 
@@ -43,7 +44,7 @@
 }
 
 .labelRequired {
-  & span {
+  &>span:first-of-type {
     @apply inline-block relative;
 
     &:before {

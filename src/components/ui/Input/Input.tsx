@@ -7,6 +7,7 @@ import { RegisterOptions } from 'react-hook-form/dist/types/validator'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
   suffix?: JSX.Element
+  labelSuffix?: JSX.Element
   register: UseFormMethods['register']
   rules: RegisterOptions
   errors: UseFormMethods['errors']
@@ -15,6 +16,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: FC<InputProps> = ({
   label,
   suffix,
+  labelSuffix,
   register,
   rules,
   errors,
@@ -38,6 +40,7 @@ const Input: FC<InputProps> = ({
         })}
       >
         <span>{label}</span>
+        {labelSuffix && <span>{labelSuffix}</span>}
       </label>
 
       <div

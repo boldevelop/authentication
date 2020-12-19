@@ -46,7 +46,7 @@ const Tabs: FC<TabsProps> = ({
     if (activeTabKey) {
       setActiveTab(activeTabKey)
     }
-  }, [activeTabKey])
+  }, [activeTab, activeTabKey])
 
   return (
     <div>

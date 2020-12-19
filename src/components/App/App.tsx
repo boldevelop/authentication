@@ -5,11 +5,8 @@ import Tabs from '../ui/Tabs'
 import TabPane from '../ui/TabPane'
 import RegisterForm from '../RegisterForm'
 import AuthForm from '../AuthForm'
+import Link from '../ui/Link'
 
-const linkStyles =
-  'text-indigo-600 underline cursor-pointer' +
-  ' transition transition-all ease-in-out duration-200' +
-  ' hover:no-underline'
 const defaultActiveKey = '0'
 
 const App: FC = () => {
@@ -23,24 +20,28 @@ const App: FC = () => {
       <main className="container h-full pt-20">
         <div className="flex justify-center">
           <div className={css.form}>
-            <Tabs defaultActiveKey={defaultActiveKey} activeTabKey={activeTab}>
+            <Tabs
+              defaultActiveKey={defaultActiveKey}
+              activeTabKey={activeTab}
+              onChange={setActiveTab}
+            >
               <TabPane tabKey="0" tab="sign in">
                 <AuthForm>
-                  <p className="text-center text-sm text-gray-600">
+                  <p className="text-center text-sm text-gray-600 mt-3">
                     Don't have an account?{' '}
-                    <span className={linkStyles} onClick={signUpClick}>
-                      Sign Up Here
-                    </span>
+                    <Link onClick={signUpClick}>Sign Up Here</Link>
                   </p>
                 </AuthForm>
               </TabPane>
               <TabPane tabKey="1" tab="sign up">
                 <RegisterForm>
+                  <p className="text-center text-xs text-gray-400 mb-5 mt-1">
+                    By clicking create, you are agreeing <br />
+                    <Link>Terms of use</Link> and <Link>Privacy policy</Link>
+                  </p>
                   <p className="text-center text-sm text-gray-600">
                     Already have an account?{' '}
-                    <span className={linkStyles} onClick={signIpClick}>
-                      Sign In Here
-                    </span>
+                    <Link onClick={signIpClick}>Sign In Here</Link>
                   </p>
                 </RegisterForm>
               </TabPane>

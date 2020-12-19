@@ -5,6 +5,8 @@ import Button from '../ui/Button'
 import { useForm } from 'react-hook-form'
 import { emailValidation, trimAllSpaces } from '../../helpers'
 import PasswordInput from '../ui/PasswordInput'
+import Link from '../ui/Link'
+import Checkbox from '../ui/Checkbox'
 
 const emailName = 'AuthEmail'
 const passwordName = 'AuthPassword'
@@ -53,8 +55,11 @@ const AuthForm: FC = ({ children }) => {
           name={passwordName}
           errors={errors}
           label="Password"
+          labelSuffix={<Link className="text-xs">forgot password?</Link>}
         />
-        <Button className="mb-3">Login</Button>
+
+        <Checkbox label="Remember me" />
+        <Button>Login</Button>
       </form>
 
       {children}

@@ -82,7 +82,7 @@ const RegisterForm: FC = ({ children }) => {
           errors={errors}
           label="Confirm password"
         />
-        <Button className="mb-3">Create</Button>
+        <Button>Create</Button>
       </form>
 
       {children}

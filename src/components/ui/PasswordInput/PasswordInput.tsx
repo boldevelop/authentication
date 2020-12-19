@@ -28,6 +28,7 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormMethods['register']
   rules: RegisterOptions
   errors: UseFormMethods['errors']
+  labelSuffix?: JSX.Element
 }
 
 const password = 'password'
