@@ -7,6 +7,8 @@ import RegisterForm from '../RegisterForm'
 import AuthForm from '../AuthForm'
 import Link from '../ui/Link'
 import { RegisteredUsersContextProvider } from 'context/registeredUsersContext'
+import { LoginUserContextProvider } from 'context/loginUserContext'
+import RegisteredContent from '../RegisteredContent'
 
 const defaultActiveKey = '0'
 
@@ -27,6 +29,7 @@ const defaultUsers = [
 
 const App: FC = () => {
   const [activeTab, setActiveTab] = useState(defaultActiveKey)
+  const [loggedUser, setLoggedUser] = useState(null)
   const [regUsers, setRegUsers] = useState(defaultUsers)
   const signUpClick = () => setActiveTab('1')
   const signIpClick = () => setActiveTab('0')
@@ -36,42 +39,58 @@ const App: FC = () => {
     setActiveTab('0')
   }
 
+  const logUser = (user) => {
+    setLoggedUser(user)
+  }
+
+  const logout = () => setLoggedUser(null)
+
+  const unregisteredContent = (
+    <Tabs
+      defaultActiveKey={defaultActiveKey}
+      activeTabKey={activeTab}
+      onChange={setActiveTab}
+    >
+      <TabPane tabKey="0" tab="sign in">
+        <AuthForm setLoggedUser={logUser}>
+          <p className="text-center text-sm text-gray-600 mt-3">
+            Don't have an account?{' '}
+            <Link onClick={signUpClick}>Sign Up Here</Link>
+          </p>
+        </AuthForm>
+      </TabPane>
+      <TabPane tabKey="1" tab="sign up">
+        <RegisterForm addUser={addUser}>
+          <p className="text-center text-xs text-gray-400 mb-5 mt-1">
+            By clicking create, you are agreeing <br />
+            <Link>Terms of use</Link> and <Link>Privacy policy</Link>
+          </p>
+          <p className="text-center text-sm text-gray-600">
+            Already have an account?{' '}
+            <Link onClick={signIpClick}>Sign In Here</Link>
+          </p>
+        </RegisterForm>
+      </TabPane>
+    </Tabs>
+  )
+
   return (
-    <RegisteredUsersContextProvider value={regUsers}>
-      <Header />
-      <main className="container h-full pt-20">
-        <div className="flex justify-center">
-          <div className={css.form}>
-            <Tabs
-              defaultActiveKey={defaultActiveKey}
-              activeTabKey={activeTab}
-              onChange={setActiveTab}
-            >
-              <TabPane tabKey="0" tab="sign in">
-                <AuthForm>
-                  <p className="text-center text-sm text-gray-600 mt-3">
-                    Don't have an account?{' '}
-                    <Link onClick={signUpClick}>Sign Up Here</Link>
-                  </p>
-                </AuthForm>
-              </TabPane>
-              <TabPane tabKey="1" tab="sign up">
-                <RegisterForm addUser={addUser}>
-                  <p className="text-center text-xs text-gray-400 mb-5 mt-1">
-                    By clicking create, you are agreeing <br />
-                    <Link>Terms of use</Link> and <Link>Privacy policy</Link>
-                  </p>
-                  <p className="text-center text-sm text-gray-600">
-                    Already have an account?{' '}
-                    <Link onClick={signIpClick}>Sign In Here</Link>
-                  </p>
-                </RegisterForm>
-              </TabPane>
-            </Tabs>
+    <LoginUserContextProvider value={loggedUser}>
+      <RegisteredUsersContextProvider value={regUsers}>
+        <Header />
+        <main className="container h-full pt-20">
+          <div className="flex justify-center">
+            <div className={css.form}>
+              {loggedUser ? (
+                <RegisteredContent logout={logout} />
+              ) : (
+                unregisteredContent
+              )}
+            </div>
           </div>
-        </div>
-      </main>
-    </RegisteredUsersContextProvider>
+        </main>
+      </RegisteredUsersContextProvider>
+    </LoginUserContextProvider>
   )
 }
 

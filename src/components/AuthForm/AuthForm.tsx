@@ -19,7 +19,11 @@ interface Inputs {
   [rememberName]: string
 }
 
-const AuthForm: FC = ({ children }) => {
+interface AuthFormProps {
+  setLoggedUser: (user) => void
+}
+
+const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
   const [onSubmitError, setOnsubmitError] = useState('')
   const { register, handleSubmit, errors, setValue } = useForm<Inputs>({
     mode: 'onChange',
@@ -62,8 +66,11 @@ const AuthForm: FC = ({ children }) => {
     })
 
     if (isSuccess) {
-      console.log('Success')
       clearForm()
+      setLoggedUser({
+        email: data[emailName],
+        password: data[passwordName],
+      })
     } else {
       setOnsubmitError('Password or email incorrect')
     }
