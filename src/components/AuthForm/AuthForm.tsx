@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import Title from '../ui/Title'
 import Input from '../ui/Input'
 import Button from '../ui/Button'
@@ -7,6 +7,7 @@ import { emailValidation, trimAllSpaces } from '../../helpers'
 import PasswordInput from '../ui/PasswordInput'
 import Link from '../ui/Link'
 import Checkbox from '../ui/Checkbox'
+import RegisteredUsersContext from '../../context/registeredUsersContext'
 
 const emailName = 'authEmail'
 const passwordName = 'authPassword'
@@ -19,9 +20,28 @@ interface Inputs {
 }
 
 const AuthForm: FC = ({ children }) => {
-  const { register, handleSubmit, errors } = useForm<Inputs>({
+  const [onSubmitError, setOnsubmitError] = useState('')
+  const { register, handleSubmit, errors, setValue } = useForm<Inputs>({
     mode: 'onChange',
   })
+
+  const registeredUsers = useContext(RegisteredUsersContext)
+
+  useEffect(() => {
+    /** костыль чтоб при первом отображение не подставлялись поля */
+    if (registeredUsers.length !== 3) {
+      const lastUser = registeredUsers[registeredUsers.length - 1]
+      setValue(emailName, lastUser.email, { shouldValidate: false })
+      setValue(passwordName, lastUser.password, { shouldValidate: false })
+    }
+  }, [registeredUsers])
+
+  const clearForm = () => {
+    setValue(emailName, '', { shouldValidate: false })
+    setValue(passwordName, '', { shouldValidate: false })
+    setValue(rememberName, false, { shouldValidate: false })
+  }
+
   const onSubmit = (data) => {
     /* trim all spaces */
     for (const prop in data) {
@@ -30,7 +50,23 @@ const AuthForm: FC = ({ children }) => {
         data[prop] = trimAllSpaces(value)
       }
     }
-    console.log(data)
+
+    let isSuccess = false
+    registeredUsers.forEach((regUser) => {
+      if (
+        regUser.email === data[emailName] &&
+        regUser.password === data[passwordName]
+      ) {
+        isSuccess = true
+      }
+    })
+
+    if (isSuccess) {
+      console.log('Success')
+      clearForm()
+    } else {
+      setOnsubmitError('Password or email incorrect')
+    }
   }
 
   const emailRules = {
@@ -64,6 +100,11 @@ const AuthForm: FC = ({ children }) => {
 
         <Checkbox register={register} name={rememberName} label="Remember me" />
         <Button>Login</Button>
+        {onSubmitError && (
+          <p className="text-sm text-red-400 text-center mb-5">
+            {onSubmitError}
+          </p>
+        )}
       </form>
 
       {children}

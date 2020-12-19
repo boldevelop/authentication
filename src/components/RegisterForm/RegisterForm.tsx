@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useContext, useState } from 'react'
 import Title from '../ui/Title'
 import Input from '../ui/Input'
 import Button from '../ui/Button'
@@ -10,6 +10,7 @@ import {
   validateSecondPwd,
 } from '../../helpers'
 import PasswordInput from '../ui/PasswordInput'
+import RegisteredUsersContext from '../../context/registeredUsersContext'
 
 const emailName = 'email'
 const passwordName = 'password'
@@ -21,10 +22,23 @@ interface Inputs {
   [confirmPwdName]: string
 }
 
-const RegisterForm: FC = ({ children }) => {
-  const { register, handleSubmit, errors, watch } = useForm<Inputs>({
+interface RegisterFormProp {
+  addUser: (user) => void
+}
+
+const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
+  const [onSubmitError, setOnsubmitError] = useState('')
+  const { register, handleSubmit, errors, watch, setValue } = useForm<Inputs>({
     mode: 'onChange',
   })
+
+  const registeredUsers = useContext(RegisteredUsersContext)
+
+  const clearForm = () => {
+    setValue(emailName, '', { shouldValidate: false })
+    setValue(passwordName, '', { shouldValidate: false })
+    setValue(confirmPwdName, '', { shouldValidate: false })
+  }
 
   const onSubmit = (data) => {
     /* trim all spaces */
@@ -32,7 +46,17 @@ const RegisterForm: FC = ({ children }) => {
       const value = data[prop]
       data[prop] = trimAllSpaces(value)
     }
-    console.log(data)
+
+    const isExist = registeredUsers.some(
+      (registeredU) => registeredU.email === data[emailName]
+    )
+    if (isExist) {
+      setOnsubmitError(`User with email '${data[emailName]}' already exist`)
+    } else {
+      setOnsubmitError('')
+      addUser({ email: data[emailName], password: data[passwordName] })
+      clearForm()
+    }
   }
 
   const passwordValue = watch(passwordName)
@@ -82,7 +106,13 @@ const RegisterForm: FC = ({ children }) => {
           errors={errors}
           label="Confirm password"
         />
+
         <Button>Create</Button>
+        {onSubmitError && (
+          <p className="text-sm text-red-400 text-center mb-5">
+            {onSubmitError}
+          </p>
+        )}
       </form>
 
       {children}

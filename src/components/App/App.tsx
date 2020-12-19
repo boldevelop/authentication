@@ -6,16 +6,38 @@ import TabPane from '../ui/TabPane'
 import RegisterForm from '../RegisterForm'
 import AuthForm from '../AuthForm'
 import Link from '../ui/Link'
+import { RegisteredUsersContextProvider } from 'context/registeredUsersContext'
 
 const defaultActiveKey = '0'
 
+const defaultUsers = [
+  {
+    email: 'test@gmail.com',
+    password: 'qwertyQ1!',
+  },
+  {
+    email: 'user@gmail.com',
+    password: 'qwertyQ1!',
+  },
+  {
+    email: 'superuser@gmail.com',
+    password: 'qwertyQ1!',
+  },
+]
+
 const App: FC = () => {
   const [activeTab, setActiveTab] = useState(defaultActiveKey)
+  const [regUsers, setRegUsers] = useState(defaultUsers)
   const signUpClick = () => setActiveTab('1')
   const signIpClick = () => setActiveTab('0')
 
+  const addUser = (user) => {
+    setRegUsers([...regUsers, user])
+    setActiveTab('0')
+  }
+
   return (
-    <>
+    <RegisteredUsersContextProvider value={regUsers}>
       <Header />
       <main className="container h-full pt-20">
         <div className="flex justify-center">
@@ -34,7 +56,7 @@ const App: FC = () => {
                 </AuthForm>
               </TabPane>
               <TabPane tabKey="1" tab="sign up">
-                <RegisterForm>
+                <RegisterForm addUser={addUser}>
                   <p className="text-center text-xs text-gray-400 mb-5 mt-1">
                     By clicking create, you are agreeing <br />
                     <Link>Terms of use</Link> and <Link>Privacy policy</Link>
@@ -49,7 +71,7 @@ const App: FC = () => {
           </div>
         </div>
       </main>
-    </>
+    </RegisteredUsersContextProvider>
   )
 }
 
