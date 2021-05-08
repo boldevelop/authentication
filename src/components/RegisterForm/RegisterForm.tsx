@@ -78,6 +78,7 @@ const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <UI.Input
+          autoComplete="on"
           register={register}
           rules={emailRules}
           name={FormFieldsName.emailName}
@@ -87,6 +88,7 @@ const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
           placeholder="example@gmail.com"
         />
         <UI.PasswordInput
+          autoComplete="on"
           register={register}
           rules={passwordRules}
           name={FormFieldsName.passwordName}
@@ -94,6 +96,7 @@ const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
           label="Password"
         />
         <UI.PasswordInput
+          autoComplete="on"
           register={register}
           rules={confirmPwdRules}
           name={FormFieldsName.confirmPwdName}

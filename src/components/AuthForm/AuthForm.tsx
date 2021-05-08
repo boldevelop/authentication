@@ -58,6 +58,7 @@ const AuthForm: FC = ({ children }) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <UI.Input
+          autoComplete="on"
           register={register}
           rules={emailRules}
           name={FormFieldsName.emailName}
@@ -68,6 +69,7 @@ const AuthForm: FC = ({ children }) => {
         />
 
         <UI.PasswordInput
+          autoComplete="on"
           register={register}
           rules={passwordRules}
           name={FormFieldsName.passwordName}
