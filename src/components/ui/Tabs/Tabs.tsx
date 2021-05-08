@@ -1,31 +1,16 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react'
+import React, { FC, ReactElement, useEffect, useRef, useState } from 'react'
 import css from './Tabs.module.css'
 import cn from 'classnames'
 import { TabPaneProps } from '../TabPane'
+import { Tab } from './Tab'
 
-interface TabProps {
-  tabKey: string
-  activeTab: string
-  setActiveTab: (key, e) => void
-}
+const isArrowPressed = (code) => code === 'ArrowRight' || code === 'ArrowLeft'
+const isSelectKeyPressed = (code) => code === 'Space' || code === 'Enter'
 
-const Tab: FC<TabProps> = ({ children, tabKey, setActiveTab, activeTab }) => {
-  return (
-    <li
-      onClick={(e) => setActiveTab(tabKey, e)}
-      className={cn(css.tabsListItem, {
-        [css.tabsListItemActive]: activeTab === tabKey,
-      })}
-    >
-      {children}
-    </li>
-  )
-}
-
-interface TabsProps {
+type TabsProps = {
   defaultActiveKey: string
   children: ReactElement<TabPaneProps>[]
-  onChange?: (key, e) => void
+  onChange?: (key) => void
   activeTabKey?: string
 }
 
@@ -35,29 +20,62 @@ const Tabs: FC<TabsProps> = ({
   onChange,
   activeTabKey,
 }) => {
-  const [activeTab, setActiveTab] = useState(defaultActiveKey)
+  const [activeTab, _setActiveTab] = useState(defaultActiveKey)
+  const tabsRef = useRef([])
 
-  const handleClick = (key, e) => {
-    onChange && onChange(key, e)
-    setActiveTab(key)
+  const setActiveTab = (key) => {
+    onChange && onChange(key)
+    _setActiveTab(key)
   }
+
+  const handlerKeyDown = (tabKey, e) => {
+    if (isArrowPressed(e.code)) {
+      tabsRef.current.forEach((tab) => {
+        if (tab !== e.target) {
+          tab.focus()
+          e.target.tabIndex = -1
+          tab.tabIndex = 0
+        }
+      })
+    }
+
+    if (isSelectKeyPressed(e.code)) {
+      tabsRef.current.forEach((tab) => {
+        if (tab === e.target) {
+          const nextActiveTab = tab.id
+          if (activeTab !== nextActiveTab) {
+            setActiveTab(nextActiveTab)
+          }
+        }
+      })
+    }
+  }
+
+  const childrenCount = React.Children.count(children)
+
+  useEffect(() => {
+    tabsRef.current = tabsRef.current.slice(0, childrenCount)
+  }, [childrenCount])
 
   useEffect(() => {
     if (activeTabKey) {
-      setActiveTab(activeTabKey)
+      _setActiveTab(activeTabKey)
     }
   }, [activeTab, activeTabKey])
 
   return (
     <div>
-      <ol className="flex px-6">
-        {React.Children.map(children, (child) => {
+      <ol className="flex px-6" role="tablist" aria-label="Form selection tabs">
+        {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
             return (
               <Tab
                 tabKey={child.props.tabKey}
-                setActiveTab={handleClick}
+                setActiveTab={setActiveTab}
                 activeTab={activeTab}
+                handlerKeyDown={handlerKeyDown}
+                tabsRef={tabsRef}
+                index={index}
               >
                 {child.props.tab}
               </Tab>
@@ -68,15 +86,23 @@ const Tabs: FC<TabsProps> = ({
       <div className="flex">
         {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
+            const { tabKey } = child.props
             const isFirst = index === 0
+            const isActive = activeTab === tabKey
 
             return (
               <div
                 className={cn(css.tabContent, {
-                  [css.tabContentActive]: activeTab === child.props.tabKey,
+                  [css.tabContentActive]: isActive,
                   [css.right]: isFirst,
                   [css.left]: !isFirst,
                 })}
+                /* accessibility */
+                role="tabpanel"
+                tabIndex={isActive ? 0 : -1}
+                id={`panel-${tabKey}`}
+                aria-labelledby={tabKey}
+                aria-hidden={isActive ? 'false' : 'true'}
               >
                 {child.props.children}
               </div>

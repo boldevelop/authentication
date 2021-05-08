@@ -9,7 +9,7 @@
 }
 
 .tabContent {
-  @apply opacity-0 px-0 pt-8 pb-6 w-0 overflow-hidden h-0;
+  @apply opacity-0 px-0 pt-8 pb-6 w-0 overflow-hidden h-0 invisible;
   @apply transition duration-500 ease-in-out;
 }
 
@@ -23,5 +23,5 @@
 
 .tabContentActive {
   transform: translateX(0);
-  @apply opacity-100 w-full block h-full px-6;
+  @apply opacity-100 w-full block h-full px-6 visible;
 }
