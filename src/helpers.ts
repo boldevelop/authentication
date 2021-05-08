@@ -29,8 +29,14 @@ export const emailValidation = (value: string): boolean | string => {
   return true
 }
 
-export const trimAllSpaces = (value: string): string =>
-  value.replace(/\s+/g, '')
+export const trimAllSpaces = (data): void => {
+  for (const prop in data) {
+    const value = data[prop]
+    if (typeof value === 'string') {
+      data[prop] = value.replace(/\s+/g, '')
+    }
+  }
+}
 
 export const validatePassword = (value: string): string | boolean => {
   if (!/[a-z]/g.test(value)) return 'Password must include lower characters'

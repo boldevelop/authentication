@@ -1,85 +1,53 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { emailValidation, trimAllSpaces } from '../../helpers'
-import * as UI from '../ui'
+import * as UI from 'components/ui'
+import { useUser } from 'context/UserContext/UserContext'
+import { useUsersDB } from 'context/UsersDataBase/UsersDataBaseContext'
+import { FormFieldsType } from './type'
+import { FormFieldsName } from './constants'
 
-import RegisteredUsersContext from '../../context/registeredUsersContext'
-
-const emailName = 'authEmail'
-const passwordName = 'authPassword'
-const rememberName = 'remember'
-
-interface Inputs {
-  [emailName]: string
-  [passwordName]: string
-  [rememberName]: string
+const emailRules = {
+  required: 'Email is required',
+  validate: emailValidation,
 }
+const passwordRules = { required: 'Password is required' }
 
-interface AuthFormProps {
-  setLoggedUser: (user, isRemember) => void
-}
-
-const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
+const AuthForm: FC = ({ children }) => {
   const [onSubmitError, setOnsubmitError] = useState('')
-  const { register, handleSubmit, errors, setValue } = useForm<Inputs>({
+  const { register, handleSubmit, errors, setValue } = useForm<FormFieldsType>({
     mode: 'onChange',
   })
 
-  const registeredUsers = useContext(RegisteredUsersContext)
-
-  useEffect(() => {
-    /** костыль чтоб при первом отображение не подставлялись поля */
-    if (registeredUsers.length !== 3) {
-      const lastUser = registeredUsers[registeredUsers.length - 1]
-      setValue(emailName, lastUser.email, { shouldValidate: false })
-      setValue(passwordName, lastUser.password, { shouldValidate: false })
-    }
-  }, [registeredUsers])
-
-  const clearForm = () => {
-    setValue(emailName, '', { shouldValidate: false })
-    setValue(passwordName, '', { shouldValidate: false })
-    setValue(rememberName, false, { shouldValidate: false })
+  const onAddUser = (email, password) => {
+    setValue(FormFieldsName.emailName, email, { shouldValidate: false })
+    setValue(FormFieldsName.passwordName, password, { shouldValidate: false })
   }
 
-  const onSubmit = (data) => {
-    /* trim all spaces */
-    for (const prop in data) {
-      const value = data[prop]
-      if (typeof value === 'string') {
-        data[prop] = trimAllSpaces(value)
-      }
+  const { login } = useUser()
+  const { isRightCredit } = useUsersDB(onAddUser)
+
+  const clearForm = () => {
+    setValue(FormFieldsName.emailName, '', { shouldValidate: false })
+    setValue(FormFieldsName.passwordName, '', { shouldValidate: false })
+    setValue(FormFieldsName.rememberName, false, { shouldValidate: false })
+  }
+
+  const onSubmit = (data: FormFieldsType) => {
+    trimAllSpaces(data)
+
+    const credentials = {
+      email: data[FormFieldsName.emailName],
+      password: data[FormFieldsName.passwordName],
     }
 
-    let isSuccess = false
-    registeredUsers.forEach((regUser) => {
-      if (
-        regUser.email === data[emailName] &&
-        regUser.password === data[passwordName]
-      ) {
-        isSuccess = true
-      }
-    })
-
-    if (isSuccess) {
+    if (isRightCredit(credentials)) {
       clearForm()
-      setLoggedUser(
-        {
-          email: data[emailName],
-          password: data[passwordName],
-        },
-        data[rememberName]
-      )
+      login(credentials, data[FormFieldsName.rememberName])
     } else {
       setOnsubmitError('Password or email incorrect')
     }
   }
-
-  const emailRules = {
-    required: 'Email is required',
-    validate: emailValidation,
-  }
-  const passwordRules = { required: 'Password is required' }
 
   return (
     <div>
@@ -89,16 +57,17 @@ const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
         <UI.Input
           register={register}
           rules={emailRules}
-          name={emailName}
-          type={emailName}
+          name={FormFieldsName.emailName}
+          type={FormFieldsName.emailName}
           errors={errors}
           label="Email"
           placeholder="example@gmail.com"
         />
+
         <UI.PasswordInput
           register={register}
           rules={passwordRules}
-          name={passwordName}
+          name={FormFieldsName.passwordName}
           errors={errors}
           label="Password"
           labelSuffix={<UI.Link className="text-xs">forgot password?</UI.Link>}
@@ -106,10 +75,12 @@ const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
 
         <UI.Checkbox
           register={register}
-          name={rememberName}
+          name={FormFieldsName.rememberName}
           label="Remember me"
         />
+
         <UI.Button>Login</UI.Button>
+
         {onSubmitError && (
           <p className="text-sm text-red-400 text-center mb-5">
             {onSubmitError}

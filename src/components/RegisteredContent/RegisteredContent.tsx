@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import * as UI from '../ui'
+import * as UI from 'components/ui'
 
 interface Props {
   logout: () => void
