@@ -59,3 +59,5 @@ export const validateSecondPwd = (
   if (!(value === firstPassword)) return 'The passwords do not match'
   return true
 }
+
+export const isSelectKeyPressed = (code) => code === 'Space' || code === 'Enter'

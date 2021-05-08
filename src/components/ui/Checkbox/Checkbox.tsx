@@ -18,6 +18,7 @@ const Checkbox: FC<CheckboxProps> = ({ label, register, ...props }) => (
         ref={(e) => {
           register(e, {})
         }}
+        tabIndex={0}
       />
       <span className={css.checkmark} />
       <span className={css.label}>{label}</span>

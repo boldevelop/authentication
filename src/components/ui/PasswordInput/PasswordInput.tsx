@@ -1,26 +1,12 @@
 import { FC, InputHTMLAttributes, useState } from 'react'
 import { UseFormMethods } from 'react-hook-form'
 import { RegisterOptions } from 'react-hook-form/dist/types/validator'
-import { Input, Icon } from '../index'
+import { Input } from '../index'
+import { InputType } from './constants'
+import { EyeIcon } from './EyeIcon'
 
-interface EyeIconProps {
-  onClick: (e?) => void
-}
-
-const eyeOpened = 'eyeOpened'
-const eyeClosed = 'eyeClosed'
-
-const EyeIcon: FC<EyeIconProps> = ({ onClick }) => {
-  const [type, setType] = useState(eyeOpened)
-  const handleClick = () => {
-    setType(type === eyeOpened ? eyeClosed : eyeOpened)
-    onClick && onClick()
-  }
-
-  const title = type === eyeOpened ? 'Show password' : 'Hide password'
-
-  return <Icon type={type} onClick={handleClick} title={title} />
-}
+const toggleType = (type) =>
+  type === InputType.password ? InputType.text : InputType.password
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
@@ -30,19 +16,16 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelSuffix?: JSX.Element
 }
 
-const password = 'password'
-const text = 'text'
-
 const PasswordInput: FC<PasswordInputProps> = ({ ...props }) => {
-  const [type, setType] = useState(password)
-  const handleClick = () => setType(type === password ? text : password)
+  const [type, setType] = useState(InputType.password)
+  const onToggle = () => setType(toggleType(type))
 
   return (
     <Input
       {...props}
       type={type}
       placeholder="••••••••"
-      suffix={<EyeIcon onClick={handleClick} />}
+      suffix={<EyeIcon onToggle={onToggle} />}
     />
   )
 }

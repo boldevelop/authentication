@@ -3,9 +3,9 @@ import css from './Tabs.module.css'
 import cn from 'classnames'
 import { TabPaneProps } from '../TabPane'
 import { Tab } from './Tab'
+import { isSelectKeyPressed } from 'helpers/helpers'
 
 const isArrowPressed = (code) => code === 'ArrowRight' || code === 'ArrowLeft'
-const isSelectKeyPressed = (code) => code === 'Space' || code === 'Enter'
 
 type TabsProps = {
   defaultActiveKey: string

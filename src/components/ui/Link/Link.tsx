@@ -4,7 +4,7 @@ import cn from 'classnames'
 const linkStyles =
   'text-indigo-600 underline cursor-pointer' +
   ' transition transition-all ease-in-out duration-200' +
-  ' hover:no-underline'
+  ' hover:no-underline focus:no-underline'
 
 const Link: FC<HTMLAttributes<HTMLSpanElement>> = ({
   children,

@@ -6,11 +6,7 @@
   @apply transition transition-all ease-in-out duration-200;
 }
 
-.button:hover {
+.button:hover, .button:focus {
   @apply bg-indigo-600;
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 15px rgba(79, 70, 229,.6);
-}
-
-.button:focus {
-  @apply outline-none;
 }

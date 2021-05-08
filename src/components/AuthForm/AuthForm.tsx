@@ -73,7 +73,11 @@ const AuthForm: FC = ({ children }) => {
           name={FormFieldsName.passwordName}
           errors={errors}
           label="Password"
-          labelSuffix={<UI.Link className="text-xs">forgot password?</UI.Link>}
+          labelSuffix={
+            <UI.Link className="text-xs" tabIndex={0}>
+              forgot password?
+            </UI.Link>
+          }
         />
 
         <UI.Checkbox
