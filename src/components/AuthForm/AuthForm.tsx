@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { emailValidation, trimAllSpaces } from '../../helpers'
+import { emailValidation, trimAllSpaces } from 'helpers/helpers'
 import * as UI from 'components/ui'
 import { useUser } from 'context/UserContext/UserContext'
 import { useUsersDB } from 'context/UsersDataBase/UsersDataBaseContext'

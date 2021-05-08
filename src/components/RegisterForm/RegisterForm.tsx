@@ -5,7 +5,7 @@ import {
   trimAllSpaces,
   validatePassword,
   validateSecondPwd,
-} from '../../helpers'
+} from 'helpers/helpers'
 import * as UI from 'components/ui'
 import { useUsersDB } from 'context/UsersDataBase/UsersDataBaseContext'
 import { FormFieldsType } from './type'
