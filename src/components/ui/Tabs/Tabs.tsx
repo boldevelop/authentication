@@ -66,12 +66,16 @@ const Tabs: FC<TabsProps> = ({
         })}
       </ol>
       <div className="flex">
-        {React.Children.map(children, (child) => {
+        {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
+            const isFirst = index === 0
+
             return (
               <div
                 className={cn(css.tabContent, {
                   [css.tabContentActive]: activeTab === child.props.tabKey,
+                  [css.right]: isFirst,
+                  [css.left]: !isFirst,
                 })}
               >
                 {child.props.children}
