@@ -84,4 +84,4 @@ const Tabs: FC<TabsProps> = ({
   )
 }
 
-export default Tabs
+export { Tabs }

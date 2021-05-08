@@ -1,8 +1,7 @@
 import { FC, InputHTMLAttributes, useState } from 'react'
 import { UseFormMethods } from 'react-hook-form'
 import { RegisterOptions } from 'react-hook-form/dist/types/validator'
-import Input from '../Input'
-import Icon from '../Icon'
+import { Input, Icon } from '../index'
 
 interface EyeIconProps {
   onClick: (e?) => void
@@ -48,4 +47,4 @@ const PasswordInput: FC<PasswordInputProps> = ({ ...props }) => {
   )
 }
 
-export default PasswordInput
+export { PasswordInput }

@@ -4,13 +4,13 @@
   @apply block w-full mt-8 text-center rounded bg-indigo-600;
   @apply text-white tracking-widest uppercase;
   @apply transition transition-all ease-in-out duration-200;
+}
 
-  &:hover {
-    @apply bg-indigo-600;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 15px rgba(79, 70, 229,.6);
-  }
+.button:hover {
+  @apply bg-indigo-600;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 15px rgba(79, 70, 229,.6);
+}
 
-  &:focus {
-    @apply outline-none;
-  }
+.button:focus {
+  @apply outline-none;
 }

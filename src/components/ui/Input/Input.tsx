@@ -119,4 +119,4 @@ const Input: FC<InputProps> = ({
   )
 }
 
-export default Input
+export { Input }

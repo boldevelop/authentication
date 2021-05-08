@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import Button from '../ui/Button'
-import Title from '../ui/Title'
+import * as UI from '../ui'
 
 interface Props {
   logout: () => void
@@ -9,10 +8,10 @@ interface Props {
 const RegisteredContent: FC<Props> = ({ logout }) => {
   return (
     <div className="px-6 pb-6">
-      <Title subtitle="You can reload page">Welcome!</Title>
-      <Button onClick={logout}>logout</Button>
+      <UI.Title subtitle="You can reload page">Welcome!</UI.Title>
+      <UI.Button onClick={logout}>logout</UI.Button>
     </div>
   )
 }
 
-export default RegisteredContent
+export { RegisteredContent }

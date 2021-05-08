@@ -8,4 +8,4 @@ export interface TabPaneProps {
 
 const TabPane: FC<TabPaneProps> = ({ children }) => <div>{children}</div>
 
-export default TabPane
+export { TabPane }

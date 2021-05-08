@@ -1,12 +1,8 @@
 import { FC, useContext, useEffect, useState } from 'react'
-import Title from '../ui/Title'
-import Input from '../ui/Input'
-import Button from '../ui/Button'
 import { useForm } from 'react-hook-form'
 import { emailValidation, trimAllSpaces } from '../../helpers'
-import PasswordInput from '../ui/PasswordInput'
-import Link from '../ui/Link'
-import Checkbox from '../ui/Checkbox'
+import * as UI from '../ui'
+
 import RegisteredUsersContext from '../../context/registeredUsersContext'
 
 const emailName = 'authEmail'
@@ -87,10 +83,10 @@ const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
 
   return (
     <div>
-      <Title subtitle="Please sign in to continue">Login</Title>
+      <UI.Title subtitle="Please sign in to continue">Login</UI.Title>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
+        <UI.Input
           register={register}
           rules={emailRules}
           name={emailName}
@@ -99,17 +95,21 @@ const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
           label="Email"
           placeholder="example@gmail.com"
         />
-        <PasswordInput
+        <UI.PasswordInput
           register={register}
           rules={passwordRules}
           name={passwordName}
           errors={errors}
           label="Password"
-          labelSuffix={<Link className="text-xs">forgot password?</Link>}
+          labelSuffix={<UI.Link className="text-xs">forgot password?</UI.Link>}
         />
 
-        <Checkbox register={register} name={rememberName} label="Remember me" />
-        <Button>Login</Button>
+        <UI.Checkbox
+          register={register}
+          name={rememberName}
+          label="Remember me"
+        />
+        <UI.Button>Login</UI.Button>
         {onSubmitError && (
           <p className="text-sm text-red-400 text-center mb-5">
             {onSubmitError}
@@ -122,4 +122,4 @@ const AuthForm: FC<AuthFormProps> = ({ setLoggedUser, children }) => {
   )
 }
 
-export default AuthForm
+export { AuthForm }

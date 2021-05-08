@@ -33,4 +33,4 @@ const Icon: FC<Props> = ({ type, className, onClick, ...props }) => {
   )
 }
 
-export default Icon
+export { Icon }

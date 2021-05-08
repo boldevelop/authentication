@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import css from './Header.module.css'
-import RegisteredUsersContext from '../../context/registeredUsersContext'
+import RegisteredUsersContext from 'context/registeredUsersContext'
 import LoginUserContext from 'context/loginUserContext'
 
 const registrationMessage = (email) => (
@@ -39,4 +39,4 @@ const Header: FC = () => {
   )
 }
 
-export default Header
+export { Header }

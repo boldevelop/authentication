@@ -1,7 +1,4 @@
 import { FC, useContext, useState } from 'react'
-import Title from '../ui/Title'
-import Input from '../ui/Input'
-import Button from '../ui/Button'
 import { useForm } from 'react-hook-form'
 import {
   emailValidation,
@@ -9,8 +6,8 @@ import {
   validatePassword,
   validateSecondPwd,
 } from '../../helpers'
-import PasswordInput from '../ui/PasswordInput'
-import RegisteredUsersContext from '../../context/registeredUsersContext'
+import * as UI from '../ui'
+import RegisteredUsersContext from 'context/registeredUsersContext'
 
 const emailName = 'email'
 const passwordName = 'password'
@@ -80,10 +77,10 @@ const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
 
   return (
     <div>
-      <Title>Create Account</Title>
+      <UI.Title>Create Account</UI.Title>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
+        <UI.Input
           register={register}
           rules={emailRules}
           name={emailName}
@@ -92,14 +89,14 @@ const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
           label="Email"
           placeholder="example@gmail.com"
         />
-        <PasswordInput
+        <UI.PasswordInput
           register={register}
           rules={passwordRules}
           name={passwordName}
           errors={errors}
           label="Password"
         />
-        <PasswordInput
+        <UI.PasswordInput
           register={register}
           rules={confirmPwdRules}
           name={confirmPwdName}
@@ -107,7 +104,7 @@ const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
           label="Confirm password"
         />
 
-        <Button>Create</Button>
+        <UI.Button>Create</UI.Button>
         {onSubmitError && (
           <p className="text-sm text-red-400 text-center mb-5">
             {onSubmitError}
@@ -120,4 +117,4 @@ const RegisterForm: FC<RegisterFormProp> = ({ addUser, children }) => {
   )
 }
 
-export default RegisterForm
+export { RegisterForm }

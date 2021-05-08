@@ -25,4 +25,4 @@ const Checkbox: FC<CheckboxProps> = ({ label, register, ...props }) => (
   </div>
 )
 
-export default Checkbox
+export { Checkbox }

@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts?(x)"
+      ],
+      "rules": {
+        "import/prefer-default-export": "off",
+        "semi": [
+          "error",
+          "never"
+        ],
+        "eol-last": [
+          "error",
+          "always"
+        ],
+        "max-len": [
+          "error",
+          {
+            "code": 80,
+            "ignoreComments": true,
+            "ignoreRegExpLiterals": true
+          }
+        ],
+        "indent": [
+          "error",
+          2,
+          {
+            "SwitchCase": 1
+          }
+        ]
+      }
+    }
+  ]
+}

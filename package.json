@@ -35,44 +35,6 @@
     "test": "craco test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts?(x)"
-        ],
-        "rules": {
-          "semi": [
-            "error",
-            "never"
-          ],
-          "eol-last": [
-            "error",
-            "always"
-          ],
-          "max-len": [
-            "error",
-            {
-              "code": 80,
-              "ignoreComments": true,
-              "ignoreRegExpLiterals": true
-            }
-          ],
-          "indent": [
-            "error",
-            2,
-            {
-              "SwitchCase": 1
-            }
-          ]
-        }
-      }
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",

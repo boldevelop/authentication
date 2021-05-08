@@ -1,1 +1,1 @@
-export { default } from './RegisteredContent'
+export { RegisteredContent } from './RegisteredContent'

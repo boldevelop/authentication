@@ -1,2 +1,2 @@
-export { default } from './TabPane'
+export { TabPane } from './TabPane'
 export type { TabPaneProps } from './TabPane'

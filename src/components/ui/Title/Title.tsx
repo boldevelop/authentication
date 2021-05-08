@@ -14,4 +14,4 @@ const Title: FC<Props> = ({ children, subtitle }) => {
   )
 }
 
-export default Title
+export { Title }

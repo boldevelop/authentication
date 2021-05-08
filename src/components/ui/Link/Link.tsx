@@ -16,4 +16,4 @@ const Link: FC<HTMLAttributes<HTMLSpanElement>> = ({
   </span>
 )
 
-export default Link
+export { Link }
