@@ -35,9 +35,9 @@ const UnregisteredContent = () => {
       <UI.TabPane tabKey={TabKey.signUp} tab="sign up">
         <RegisterForm addUser={extendedAddUser}>
           <p className="text-center text-xs text-gray-400 mb-5 mt-1">
-            By clicking create, you are agreeing <br />
-            <UI.Link>Terms of use</UI.Link> and{' '}
-            <UI.Link>Privacy policy</UI.Link>
+            By logging in, you allow us to set cookies.
+            <br />
+            More about our <UI.Link>privacy</UI.Link>
           </p>
           <p className="text-center text-sm text-gray-600">
             Already have an account?{' '}

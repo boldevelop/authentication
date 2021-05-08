@@ -17,6 +17,9 @@ const AuthForm: FC = ({ children }) => {
   const [onSubmitError, setOnsubmitError] = useState('')
   const { register, handleSubmit, errors, setValue } = useForm<FormFieldsType>({
     mode: 'onChange',
+    defaultValues: {
+      [FormFieldsName.rememberName]: true,
+    },
   })
 
   const onAddUser = (email, password) => {

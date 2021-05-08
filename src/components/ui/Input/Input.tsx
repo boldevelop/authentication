@@ -67,13 +67,15 @@ const Input: FC<InputProps> = ({
   }, [inputRef])
 
   const errorObject = errors && errors[props.name]
+  const isRequired = rules && rules.required
+
   return (
     <div className="flex flex-col mb-6">
       <label
         htmlFor={props.name}
         className={cn(css.label, {
           [css.labelError]: errorObject,
-          [css.labelRequired]: rules && rules.required,
+          [css.labelRequired]: isRequired,
         })}
       >
         <span>{label}</span>
@@ -97,6 +99,7 @@ const Input: FC<InputProps> = ({
           id={props.name}
           // for accessibility (aria-invalid, role="alert")
           aria-invalid={errorObject ? 'true' : 'false'}
+          aria-required={isRequired ? 'true' : 'false'}
           {...props}
           ref={(e) => {
             register(e, rules)
