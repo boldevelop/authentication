@@ -1,14 +1,8 @@
-import { FC, InputHTMLAttributes, useEffect, useRef, useState } from 'react'
+import { FC, InputHTMLAttributes, useRef, useState } from 'react'
 import css from './Input.module.css'
 import cn from 'classnames'
 import { UseFormMethods } from 'react-hook-form'
 import { RegisterOptions } from 'react-hook-form/dist/types/validator'
-import {
-  getCapsIsPressed,
-  isPressedCapsLock,
-  setCapsIsPressedGlobal,
-} from '../../../utils/capsLock'
-import { addWindowListenerIfNone } from '../../../utils/listeners'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
@@ -17,6 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormMethods['register']
   rules: RegisterOptions
   errors: UseFormMethods['errors']
+  isCapsLockOn?: boolean
 }
 
 const Input: FC<InputProps> = ({
@@ -26,45 +21,15 @@ const Input: FC<InputProps> = ({
   register,
   rules,
   errors,
+  isCapsLockOn = false,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false)
-  const [capsIsPressed, setCapsIsPressed] = useState(false)
-
   const inputRef = useRef<HTMLInputElement | null>()
 
-  const onFocusBlurHandler = (currentRef, isOnBlur = false) => {
-    setIsFocused(document.activeElement === currentRef)
-
-    // onBlur hide capslock message
-    setCapsIsPressed(isOnBlur ? false : getCapsIsPressed())
+  const onFocusBlurHandler = () => {
+    setIsFocused(document.activeElement === inputRef.current)
   }
-
-  /** detect capslock on change */
-  const onChangeHandle = () => {
-    /** if for avoiding rerender */
-    if (getCapsIsPressed() !== capsIsPressed) {
-      setCapsIsPressed(getCapsIsPressed())
-    }
-  }
-
-  /** detect capslock when change capslock in focused */
-  const onKeyDownHandle = (event) => {
-    const isPressed = isPressedCapsLock(event)
-    /** if for avoiding rerender */
-    if (isPressed !== capsIsPressed) {
-      setCapsIsPressed(isPressed)
-    }
-  }
-
-  useEffect(() => {
-    if (inputRef) {
-      addWindowListenerIfNone('keydown', setCapsIsPressedGlobal)
-    }
-    return () => {
-      document.removeEventListener('keydown', setCapsIsPressedGlobal)
-    }
-  }, [inputRef])
 
   const errorObject = errors && errors[props.name]
   const isRequired = rules && rules.required
@@ -79,7 +44,7 @@ const Input: FC<InputProps> = ({
         })}
       >
         <span>{label}</span>
-        {capsIsPressed && (
+        {isCapsLockOn && (
           <span className={css.labelCaps}>caps lock is active!</span>
         )}
         {labelSuffix && <span>{labelSuffix}</span>}
@@ -105,10 +70,8 @@ const Input: FC<InputProps> = ({
             register(e, rules)
             inputRef.current = e
           }}
-          onFocus={() => onFocusBlurHandler(inputRef.current)}
-          onBlur={() => onFocusBlurHandler(inputRef.current, true)}
-          onChange={onChangeHandle}
-          onKeyDown={onKeyDownHandle}
+          onFocus={onFocusBlurHandler}
+          onBlur={onFocusBlurHandler}
         />
 
         {suffix && <div className={css.suffix}>{suffix}</div>}

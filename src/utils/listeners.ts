@@ -1,14 +1,10 @@
-// @ts-ignore
-document.addedListeners = {}
+const addedListeners = {}
 
-/** Избежание повторного назначения слушателя,
- * хотя на mdn говорится, что можно не избегать
+/** Avoid multiple same listeners
  * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Multiple_identical_event_listeners
  * */
-export const addWindowListenerIfNone = (eventType, fun) => {
-  // @ts-ignore
-  if (document.addedListeners[eventType]) return
-  // @ts-ignore
-  document.addedListeners[eventType] = fun
-  document.addEventListener(eventType, fun)
+export const addWindowListenerIfNone = (eventType, callback) => {
+  if (addedListeners[eventType]) return
+  addedListeners[eventType] = callback
+  document.addEventListener(eventType, callback)
 }

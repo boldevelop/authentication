@@ -5,12 +5,16 @@ import { App } from './containers/App'
 import reportWebVitals from './reportWebVitals'
 import { UserContextProvider } from './context/UserContext/UserContext'
 import { UsersDBProvider } from './context/UsersDataBase/UsersDataBaseContext'
+// eslint-disable-next-line max-len
+import { CapsLockOnContextProvider } from './context/CapsLockContext/CapsLockContext'
 
 ReactDOM.render(
   <React.StrictMode>
     <UsersDBProvider>
       <UserContextProvider>
-        <App />
+        <CapsLockOnContextProvider>
+          <App />
+        </CapsLockOnContextProvider>
       </UserContextProvider>
     </UsersDBProvider>
   </React.StrictMode>,

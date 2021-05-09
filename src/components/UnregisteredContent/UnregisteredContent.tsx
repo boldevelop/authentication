@@ -9,7 +9,6 @@ const defaultActiveKey = TabKey.signIn
 
 const UnregisteredContent = () => {
   const { addUser } = useUsersDB()
-
   const [activeTab, setActiveTab] = useState(defaultActiveKey)
   const signUpClick = () => setActiveTab(TabKey.signUp)
   const signInClick = () => setActiveTab(TabKey.signIn)
@@ -56,7 +55,8 @@ const UnregisteredContent = () => {
       <UI.TabPane tabKey={TabKey.signUp} tab="sign up">
         <RegisterForm addUser={extendedAddUser}>
           <p className="text-center text-xs text-gray-400 mb-5 mt-1">
-            By logging in, you allow us to set cookies.
+            By logging in, you allow us to set{' '}
+            <UI.Link tabIndex={0}>cookies</UI.Link>.
             <br />
             More about our <UI.Link tabIndex={0}>privacy</UI.Link>
           </p>
